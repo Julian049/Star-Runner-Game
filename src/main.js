@@ -2,6 +2,12 @@ import './style.css'
 import javascriptLogo from './javascript.svg'
 import viteLogo from '/vite.svg'
 import { setupCounter } from './counter.js'
+import kaboom from 'kaboom'
+
+
+kaboom({
+    background: [0, 0, 0],
+});
 
 document.querySelector('#app').innerHTML = `
   <div>
