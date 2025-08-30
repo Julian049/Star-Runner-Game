@@ -1,5 +1,5 @@
 export class Coin {
-
+    
     constructor(x, y,scene) {
         this.scene = scene;
         this.scene.add([

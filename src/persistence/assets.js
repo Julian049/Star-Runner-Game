@@ -1,3 +1,5 @@
-export function loadAssets() {
-    loadSprite("bean", "/sprites/coin.png");
+export function loadAssets(k) {
+    k.loadSprite("coin", "/sprites/coin.png");
+    k.loadSprite("player", "/sprites/dog.png");
+    k.loadSprite("bean", "/sprites/bean.png"); 
 }
