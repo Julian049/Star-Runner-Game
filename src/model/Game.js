@@ -4,5 +4,6 @@ class Game {
 
     start() {
         this.gameFacade.spawnCoin()
+        this.gameFacade.coinCollide()
     }
 }
