@@ -1,15 +1,11 @@
 class Coin {
 
-    randomCoins() {
-        let x = Math.random() * 1920
-        let y = Math.random() * 1080
+    constructor(x, y) {
         add([
             sprite("coin"),
             pos(x, y),
-            rotate(0),
-            anchor("center")
+            "mapCoin"
         ])
-
-        wait(3,this.randomCoins())
     }
+
 }
