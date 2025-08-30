@@ -1,10 +1,12 @@
-class Coin {
+export class Coin {
 
-    constructor(x, y) {
-        add([
-            sprite("coin"),
-            pos(x, y),
-            "mapCoin"
+    constructor(x, y,scene) {
+        this.scene = scene;
+        this.scene.add([
+            this.scene.sprite("coin"),
+            this.scene.pos(x, y),
+            this.scene.area(),
+            "mapCoin",
         ])
     }
 
