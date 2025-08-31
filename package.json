@@ -13,5 +13,18 @@
   },
   "dependencies": {
     "kaboom": "^3000.1.17"
-  }
+  },
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Julian049/Star-Runner-Game.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Julian049/Star-Runner-Game/issues"
+  },
+  "homepage": "https://github.com/Julian049/Star-Runner-Game#readme"
 }

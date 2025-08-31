@@ -1,29 +1,28 @@
 export class Player {
-    constructor(scene) {
-        this.scene = scene;
-        this.sprite = this.scene.add([
-            this.scene.sprite("player"),
-            this.scene.pos(100, 100),
-            this.scene.area(),
-            this.scene.body()
-        ]);
-    }
+  constructor(scene) {
+    this.scene = scene;
+    this.speed = 200;
+    this.jump_force = 400;
 
-    moveLeft() {
-        onKeyDown("left", () => {
-            this.sprite.move(200, 0)
-        })
-    }
+    this.sprite = this.scene.add([
+      this.scene.sprite("player"),
+      this.scene.pos(100, 100),
+      this.scene.area(),
+      this.scene.body(),
+    ]);
+  }
 
-    moveRight() {
-        onKeyDown("right", () => {
-            this.sprite.move(-200, 0)
-        })
-    }
+  moveLeft() {
+    this.sprite.move(-this.speed, 0);
+  }
 
-    jump() {
-        //  if (this.sprite.isGrounded()) {
-        //     this.sprite.jump(400);
-        //  }
+  moveRight() {
+    this.sprite.move(this.speed, 0);
+  }
+
+  jump() {
+    if (this.sprite.isGrounded()) {
+      this.sprite.jump(this.jump_force);
     }
+  }
 }
