@@ -1,6 +1,6 @@
 export class ScoreManager {
     constructor(scene) {
-        this.scene = scene;
+        this.scene = scene 
         this.scene._coinCount = 0
     }
 
@@ -10,11 +10,7 @@ export class ScoreManager {
 
 
     get count() {
-        return this.scene._coinCount;
+        return this.scene._coinCount 
     }
 
-
-    set coinCount(value) {
-        this.scene._coinCount = value;
-    }
 }
