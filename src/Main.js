@@ -12,7 +12,7 @@ new Assets(kaboomScene)
 
 const game = new GameFacade(kaboomScene)
 const scene = new GameScene(kaboomScene, game)
-scene.register()
+scene.createScene()
 
 kaboomScene.go("game");
 
