@@ -10,7 +10,7 @@ const kaboomScene = kaboom({
 
 new Assets(kaboomScene)
 
-const game = new GameFacade(kaboomScene, new KeyboardAdapter())
+const game = new GameFacade(kaboomScene)
 const scene = new GameScene(kaboomScene, game)
 scene.register()
 

@@ -1,13 +1,14 @@
 import {Player} from "./Player.js";
 import {Coin} from "./Coin.js";
 import {ScoreManager} from "./ScoreManager.js";
+import {KeyboardAdapter} from "./KeyboardAdapter.js";
 
 export class GameFacade {
     //Metodo mientras se crea el de createPlayer
-    constructor(scene, inputAdapter) {
+    constructor(scene) {
         this.player = null;
         this.scene = scene;
-        this.inputAdapter = inputAdapter;
+        this.inputAdapter = new KeyboardAdapter();
         this.scoreManager = new ScoreManager(this.scene);
     }
 

@@ -1,4 +1,5 @@
 import { FLOOR_HEIGHT, GRAVITY } from "../model/Config.js";
+import {Obstacle} from "../model/Obstacle.js";
 
 export class GameScene {
     constructor(k,game) {
@@ -23,11 +24,6 @@ export class GameScene {
             }
         });
     }
-
-    get gameScene() {
-        return this.k;
-    }
-
 
     _addPlatforms() {
         const { k } = this;
@@ -119,24 +115,9 @@ export class GameScene {
     }
 
     _addObstacles() {
-        const { k } = this;
 
         const addTriangleObstacle = (x, floorY) => {
-            const triHeight = 40;
-            const triWidth = 50;
-
-            k.add([
-                k.polygon([
-                    k.vec2(0, 0),
-                    k.vec2(triWidth, 0),
-                    k.vec2(triWidth / 2, -triHeight),
-                ]),
-                k.area(),
-                k.pos(x, floorY - FLOOR_HEIGHT),
-                k.color(255, 100, 100),
-                k.body({ isStatic: true }),
-                "obstacle",
-            ]);
+            new Obstacle(x,floorY,this.k)
         };
 
         addTriangleObstacle(300, 200);
