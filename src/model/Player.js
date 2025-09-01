@@ -1,29 +1,41 @@
+import { JUMP_FORCE } from "./Config.js";
 export class Player {
-    constructor(scene) {
-        this.scene = scene;
-        this.sprite = this.scene.add([
-            this.scene.sprite("player"),
-            this.scene.pos(100, 100),
-            this.scene.area(),
-            this.scene.body()
+    constructor(k) {
+        this.k = k;
+        this.sprite = this.k.add([
+            this.k.sprite("player"),
+            this.k.pos(100, 100),
+            this.k.area(),
+            this.k.body()
         ]);
     }
 
     moveLeft() {
-        onKeyDown("left", () => {
-            this.sprite.move(200, 0)
-        })
+        this.k.onKeyDown("left", () => {
+            this.sprite.move(-200, 0);   // 👈 ojo: izquierda es negativo
+        });
     }
 
     moveRight() {
-        onKeyDown("right", () => {
-            this.sprite.move(-200, 0)
-        })
+        this.k.onKeyDown("right", () => {
+            this.sprite.move(200, 0);    // 👈 derecha es positivo
+        });
     }
 
     jump() {
-        //  if (this.sprite.isGrounded()) {
-        //     this.sprite.jump(400);
-        //  }
+        this.k.onKeyPress("space", () => {
+            if (this.sprite.isGrounded()) {
+                this.sprite.jump(JUMP_FORCE);
+            }
+        });
     }
+}
+
+// 👉 factoría para usarlo en tus escenas
+export function createPlayer(k) {
+    const player = new Player(k);
+    player.moveLeft();
+    player.moveRight();
+    player.jump();
+    return player.sprite;
 }

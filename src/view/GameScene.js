@@ -1,54 +1,111 @@
 // src/view/GameScene.js
-import { FLOOR_HEIGHT, SPEED, GRAVITY } from "../model/Config.js";
+import { FLOOR_HEIGHT, GRAVITY } from "../model/Config.js";
 import { createPlayer } from "../model/Player.js";
 
 export function registerGameScene(k) {
     k.scene("game", () => {
         k.setGravity(GRAVITY);
-
         const player = createPlayer(k);
 
-        // Suelo
+        k.add([
+            k.rect(k.width() - 150, FLOOR_HEIGHT),
+            k.pos(0, 200),
+            k.anchor("botleft"),
+            k.area(),
+            k.body({ isStatic: true }),
+            k.color(100, 150, 255),
+        ]);
+
+        k.add([
+            k.rect(k.width() - 150, FLOOR_HEIGHT),
+            k.pos(200, 320), 
+            k.anchor("botleft"),
+            k.area(),
+            k.body({ isStatic: true }),
+            k.color(100, 150, 255),
+        ]);
+        k.add([
+            k.rect(k.width() - 150, FLOOR_HEIGHT),
+            k.pos(0, 200),
+            k.anchor("botleft"),
+            k.area(),
+            k.body({ isStatic: true }),
+            k.color(100, 150, 255),
+        ]);
+
+        k.add([
+            k.rect(k.width() - 150, FLOOR_HEIGHT),
+            k.pos(0, 440),
+            k.anchor("botleft"),
+            k.area(),
+            k.body({ isStatic: true }),
+            k.color(100, 150, 255),
+        ]);
         k.add([
             k.rect(k.width(), FLOOR_HEIGHT),
             k.pos(0, k.height()),
             k.anchor("botleft"),
             k.area(),
             k.body({ isStatic: true }),
-            k.outline(4),
-            k.color(127, 200, 255),
+            k.color(100, 150, 255),
         ]);
 
-        // Obstáculos
-        function spawnTree() {
-            k.add([
-                k.rect(48, k.rand(32, 96)),
-                k.pos(k.width(), k.height() - FLOOR_HEIGHT),
-                k.anchor("botleft"),
-                k.area(),
-                k.outline(4),
-                k.color(255, 180, 255),
-                k.move(k.LEFT, SPEED),
-                "tree",
+        k.add([
+            k.rect(1, k.height()),
+            k.pos(0, 0),
+            k.area(),
+            k.body({ isStatic: true }),
+            k.opacity(0),
+        ]);
+
+        k.add([
+            k.rect(1, k.height()),
+            k.pos(k.width(), 0),
+            k.area(),
+            k.body({ isStatic: true }),
+            k.opacity(0),
+        ]);
+        function spawnArrow() {
+            add([
+                rect(80, 20),
+                area(),
+                outline(4),
+                pos(width(), height() - 70),
+                anchor("botleft"),
+                color(255, 180, 255),
+                move(LEFT, 240),
+                "arrow",
             ]);
-            k.wait(k.rand(0.5, 1.5), spawnTree);
+            wait(rand(1, 2), () => {
+                spawnArrow();
+            });
         }
+        spawnArrow();
 
-        spawnTree();
 
-        // Score
-        let score = 0;
-        const scoreLabel = k.add([k.text(score), k.pos(24, 24)]);
+        // Esta función va en otro clase, algo llamado como creadorDeObstaculos o como quieran.
+        function addTriangleObstacle(k, x, floorY) {
+            const triHeight = 40;
+            const triWidth = 50;
 
-        k.onUpdate(() => {
-            score++;
-            scoreLabel.text = score;
-        });
+            k.add([
+                k.polygon([
+                    vec2(0, 0),
+                    vec2(triWidth, 0),
+                    vec2(triWidth / 2, -triHeight), 
+                ]),
+                k.area(),
+                k.pos(x, floorY - FLOOR_HEIGHT),   
+                k.color(255, 100, 100),
+                k.body({ isStatic: true }),
+                "obstacle",
+            ]);
+        }
+        addTriangleObstacle(k, 300, 200);
+        addTriangleObstacle(k, 600, 200);
+        addTriangleObstacle(k, 900, 200);
 
-        player.onCollide("tree", () => {
-            k.go("lose", score);
-            k.burp?.();
-            k.addKaboom(player.pos);
-        });
-    });
+
+
+    })
 }

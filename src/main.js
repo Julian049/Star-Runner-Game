@@ -1,16 +1,15 @@
-import kaboom from 'kaboom'
-import {Game} from "./model/Game.js";
+import kaboom from "kaboom"
+import { loadAssets } from "./persistence/assets.js"
+import { registerGameScene } from "./view/GameScene.js"
 
-const kaboomScene = kaboom({
+// Inicializamos kaboom
+const k = kaboom({
     background: [0, 0, 0],
-});
-
-kaboomScene.loadSprite("coin", "/sprites/coin.png")
-kaboomScene.loadSprite("player", "/sprites/dog.png")
-
-kaboomScene.scene("principalView", () => {
-    const game = new Game(kaboomScene);
-    game.start()
 })
 
-kaboomScene.go("principalView")
+function startGame() {
+    loadAssets(k)  
+    registerGameScene(k)    
+    k.go("game")         
+}
+startGame()
