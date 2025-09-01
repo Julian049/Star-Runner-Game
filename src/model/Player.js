@@ -6,7 +6,7 @@ export class Player {
 
     this.sprite = this.scene.add([
       this.scene.sprite("player"),
-      this.scene.pos(100, 100),
+      this.scene.pos(10, 10),
       this.scene.area(),
       this.scene.body(),
     ]);

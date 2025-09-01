@@ -33,6 +33,8 @@ export class GameFacade {
     }
 
     createPlayer() {
-        //
+        this.player.moveLeft()
+        this.player.moveRight()
+        this.player.jump()
     }
 }

@@ -1,17 +1,19 @@
 import kaboom from "kaboom";
-import { Game } from "./model/Game.js";
-import { KeyboardAdapter } from "./model/KeyboardAdapter.js";
+import {Game} from "./model/Game.js";
+import {KeyboardAdapter} from "./model/KeyboardAdapter.js";
+import {Assets} from "./persistence/Assets.js";
+import {GameScene} from "./view/GameScene.js";
 
 const kaboomScene = kaboom({
-  background: [0, 0, 0],
+    background: [0, 0, 0],
 });
 
-kaboomScene.loadSprite("coin", "/sprites/coin.png");
-kaboomScene.loadSprite("player", "/sprites/dog.png");
+new Assets(kaboomScene)
 
-kaboomScene.scene("principalView", () => {
-  const game = new Game(kaboomScene, new KeyboardAdapter());
-  game.start();
-});
+const game = new Game(kaboomScene, new KeyboardAdapter())
+const scene = new GameScene(kaboomScene, game)
+scene.register()
 
-kaboomScene.go("principalView");
+kaboomScene.go("game");
+
+
