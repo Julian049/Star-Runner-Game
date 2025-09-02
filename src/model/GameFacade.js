@@ -4,10 +4,41 @@ import {Coin} from "./Coin.js";
 
 export class GameFacade {
 
-    //Metodo mientras se crea el de createPlayer
-    constructor(player, scene) {
-        this.player = player
+    characterselect = "";
+
+    constructor(scene,
+                scoreManager,
+                persistence) {
+        this.player = null
         this.scene = scene;
+        this.characterselect = "";
+        this.scoreManager = scoreManager;
+        this.persistence = persistence;
+    }
+
+    addCoin() {
+        this.scoreManager.addPoint();
+    }
+
+    hitObstacle() {
+        this.scoreManager.removePoint();
+    }
+
+    endGame() {
+        const score = this.scoreManager.getScore();
+        this.persistence.saveScore(score);
+    }
+
+    getLeaderboard() {
+        return this.persistence.loadScores();
+    }
+
+    onScoreChange(cb) {
+        this.scoreManager.onChange(cb);
+    }
+
+    getCharacters() {
+        return this.persistence.loadCharacters();
     }
 
     spawnCoin() {
@@ -25,8 +56,24 @@ export class GameFacade {
     }
 
     createPlayer(){
+        this.player = new Player(this.scene, this.characterselect);
         this.player.moveLeft()
         this.player.moveRight()
         this.player.jump()
     }
+
+    getSelectedCharacter() {
+        return this.player;
+    }
+
+    setSelectedCharacter(character) {
+        this.characterselect = character;
+        this.createPlayer()
+    }
+
+    getScore() {
+        return this.scoreManager.getScore();
+    }
+
+
 }

@@ -1,14 +1,15 @@
-// src/view/GameScene.js
 import { FLOOR_HEIGHT, GRAVITY } from "../model/Config.js";
-import { createPlayer } from "../model/Player.js";
 
-export function registerGameScene(k) {
+export function registerGameScene(gameFacade, k) {
     k.scene("game", () => {
         k.setGravity(GRAVITY);
 
-        //tienen que crear el player acá
-
-        const player = createPlayer(k);
+        // Reiniciar el puntaje ANTES de crear el jugador
+        if (gameFacade.scoreManager && typeof gameFacade.scoreManager.reset === 'function') {
+            gameFacade.scoreManager.reset();
+        }
+        gameFacade.createPlayer();
+        const player = gameFacade.getSelectedCharacter();
 
         k.add([
             k.rect(k.width() - 150, FLOOR_HEIGHT),
@@ -110,7 +111,7 @@ export function registerGameScene(k) {
             const y = rand(100, k.height() - 150);
 
             k.add([
-                k.circle(15),     // moneda circular
+                k.circle(15),
                 k.color(255, 215, 0),
                 k.pos(x, y),
                 k.area(),
@@ -122,30 +123,46 @@ export function registerGameScene(k) {
 
         spawnCoin(k);
 
+        function endGameAndGoLose() {
+            gameFacade.endGame();
+            go("lose");
+        }
 
-
-
-        let score = 0;
-
-        player.onCollide("arrow", () => {
-            addKaboom(player.pos);
+        player.sprite.onCollide("arrow", () => {
+            addKaboom(player.sprite.pos);
             shake();
-            go("lose", score);
+            endGameAndGoLose();
         });
 
-        player.onCollide("obstacle", () => {
-            addKaboom(player.pos);
+        player.sprite.onCollide("obstacle", () => {
+            addKaboom(player.sprite.pos);
             shake();
-            go("lose", score);
+            endGameAndGoLose();
         });
 
-        player.onCollide("coin", ()=> {
+        player.sprite.onCollide("coin", ()=> {
             shake();
-            score++;
+            gameFacade.addCoin();
         });
 
+        const scoreLabel = k.add([
+            k.text("Puntaje: " + gameFacade.getScore()),
+            k.pos(k.width() - 300, 24),
+        ]);
 
+        gameFacade.onScoreChange((score) => {
+            scoreLabel.text = "Puntaje: " + score;
+        });
 
+        k.add([
+            k.text("Presiona ESC para salir"),
+            k.pos(24, 24),
+            k.scale(0.5),
+        ]);
+
+        k.onKeyPress("escape", () => {
+            k.go("characterSelect");
+        });
 
     })
 }
