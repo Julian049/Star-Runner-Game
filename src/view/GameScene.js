@@ -47,6 +47,20 @@ export class GameScene {
         }) 
     }
 
+    playerCollideObstacle(scoreManager){
+        this.player.sprite.onCollide("arrow", () => {
+            addKaboom(this.player.pos);
+            shake();
+            go("lose", scoreManager.count);
+        });
+
+        this.player.sprite.onCollide("obstacle", () => {
+            addKaboom(this.player.pos);
+            shake();
+            go("lose", scoreManager.count);
+        });
+    }
+
     setupPlayer() {
         this.player.moveLeft()
         this.player.moveRight()

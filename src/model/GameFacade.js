@@ -18,7 +18,8 @@ export class GameFacade {
         this.scene.createPlayer() 
         this.scene.spawnCoin() 
         this.scene.coinCollide(this.scoreManager) 
-        this.scene.setupPlayer() 
+        this.scene.setupPlayer()
+        this.scene.playerCollideObstacle(this.scoreManager)
         this.setInputAdapter(this.inputAdapter) 
     }
 
