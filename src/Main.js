@@ -1,20 +1,26 @@
-import kaboom from "kaboom" 
-import {GameFacade} from "./model/GameFacade.js"
-import {Assets} from "./persistence/Assets.js" 
-import {GameScene} from "./view/GameScene.js"
-import {registerLoseScene} from "./view/LoseScene.js";
+import kaboom from "kaboom"
+import { loadAssets } from "./persistence/assets.js"
+import { registerGameScene } from "./view/GameScene.js"
+import { registerLoseScene } from "./view/LoseScene.js"
+import { characterSelect } from "./view/CharacterSelect.js";
+import { GameFacade } from "./model/GameFacade.js";
+import { ScoreManager } from "./model/ScoreManager.js";
+import { LocalStoragePersistence } from "./persistence/LocalStoragePersistence.js";
 
-const kaboomScene = kaboom({
+const k = kaboom({
     background: [0, 0, 0],
 })
 
-new Assets(kaboomScene)
+const scoreManager = new ScoreManager();
+const persistence = new LocalStoragePersistence();
+const facade = new GameFacade(k, scoreManager, persistence);
 
-const game = new GameFacade(kaboomScene)
-registerLoseScene(kaboomScene)
-const scene = new GameScene(kaboomScene, game)
-scene.createScene()
+function startGame() {
+    loadAssets(k)  
+    registerGameScene(facade, k)
+    registerLoseScene(facade, k)
+    characterSelect(facade, k)
+    k.go("characterSelect")
+}
 
-kaboomScene.go("game") 
-
-
+startGame()

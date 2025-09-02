@@ -2,6 +2,7 @@ import { InputAdapter } from "./InputAdapter.js";
 
 export class KeyboardAdapter extends InputAdapter {
     bind(scene, player) {
+        console.log("KeyboardAdapter", scene, player);
         scene.onKeyDown("left", () => player.moveLeft());
         scene.onKeyDown("a", () => player.moveLeft());
 

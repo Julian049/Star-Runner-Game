@@ -1,16 +1,33 @@
 export class ScoreManager {
-    constructor(scene) {
-        this.scene = scene 
-        this.scene._coinCount = 0
+    constructor() {
+        this.count = 0;
+        this.observers = [];
     }
 
-    addScore() {
-        this.scene._coinCount = this.count + 50
+    getScore() {
+        return this.count;
     }
 
-
-    get count() {
-        return this.scene._coinCount 
+    addPoint() {
+        this.count++;
+        this.notify();
     }
 
+    removePoint() {
+        this.count--;
+        this.notify();
+    }
+
+    onChange(cb) {
+        this.observers.push(cb);
+    }
+
+    notify() {
+        this.observers.forEach(cb => cb(this.count));
+    }
+
+    reset() {
+        this.count = 0;
+        this.notify();
+    }
 }
