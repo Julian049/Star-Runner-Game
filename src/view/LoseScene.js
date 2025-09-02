@@ -1,13 +1,13 @@
-export function registerLoseScene() {
+export function registerLoseScene(k) {
     scene("lose", (score) => {
-        add([
+        k.add([
             text(`Score: ${score}`),
             pos(width() / 2, height() / 2),
             anchor("center"),
             scale(2),
         ]);
 
-        onKeyPress("space", () => go("game"));
-        onClick(() => go("game"));
+        onKeyPress("space", () => k.go("game"));
+        onClick(() => k.go("game"));
     });
 }

@@ -31,7 +31,6 @@ export class Player {
     }
 }
 
-// 👉 factoría para usarlo en tus escenas
 export function createPlayer(k) {
     const player = new Player(k);
     player.moveLeft();

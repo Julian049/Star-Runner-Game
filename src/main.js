@@ -1,6 +1,7 @@
 import kaboom from "kaboom"
 import { loadAssets } from "./persistence/assets.js"
 import { registerGameScene } from "./view/GameScene.js"
+import { registerLoseScene } from "./view/LoseScene.js"
 
 // Inicializamos kaboom
 const k = kaboom({
@@ -10,6 +11,7 @@ const k = kaboom({
 function startGame() {
     loadAssets(k)  
     registerGameScene(k)    
+    registerLoseScene(k)
     k.go("game")         
 }
 startGame()
