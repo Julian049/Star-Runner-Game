@@ -1,7 +1,7 @@
 import kaboom from "kaboom"
-import { loadAssets } from "./persistence/assets.js"
 import { registerGameScene } from "./view/GameScene.js"
 import { registerLoseScene } from "./view/LoseScene.js"
+import { loadAssets } from "./persistence/assets.js";
 import { characterSelect } from "./view/CharacterSelect.js";
 import { GameFacade } from "./model/GameFacade.js";
 import { ScoreManager } from "./model/ScoreManager.js";

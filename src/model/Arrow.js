@@ -1,6 +1,7 @@
+
 export class Arrow {
     constructor(scene) {
-        this.scene = scene;
+        this.scene = scene
         this.scene.add([
             this.scene.sprite("arrow"),
             this.scene.area(),

@@ -1,6 +1,9 @@
-import {Player} from "./Player.js";
-import {Coin} from "./Coin.js";
-import {KeyboardAdapter} from "./KeyboardAdapter.js";
+import { Player } from "./Player.js";
+import { Arrow } from "../model/Arrow.js";
+import { Obstacle } from "../model/Obstacle.js";
+import { Coin } from "../model/Coin.js";
+import { Wall } from "../model/Wall.js";
+import { KeyboardAdapter } from "./KeyboardAdapter.js";
 
 
 export class GameFacade {
@@ -8,8 +11,8 @@ export class GameFacade {
     characterselect = "";
 
     constructor(scene,
-                scoreManager,
-                persistence) {
+        scoreManager,
+        persistence) {
         this.player = null
         this.scene = scene;
         this.inputAdapter = new KeyboardAdapter()
@@ -43,27 +46,57 @@ export class GameFacade {
         return this.persistence.loadCharacters();
     }
 
-    spawnCoin() {
-        let x = Math.random() * 1920
-        let y = Math.random() * 1080
-        new Coin(x, y,this.scene);
-        this.scene.wait(3,() => this.spawnCoin())
+
+    // GameFacade
+    spawnArrow() {
+        const spawn = () => {
+            new Arrow(this.scene)  // PASAMOS la escena/k correcta
+            this.scene.wait(this.scene.rand(1, 2), () => spawn())
+        }
+        spawn()
     }
 
-    coinCollide(){
+    addObstacle = (x, floorY) => {
+        new Obstacle(x, floorY, this.scene)
+    }
+    spawnCoin() {
+        const spawn = () => {
+            let x = Math.random() * (this.scene.width() - 60) + 30
+            let y = Math.random() * (this.scene.height() - 100) + 50
+            let coin = new Coin(x, y, this.scene)
+
+            if (coin.sprite.isColliding("floor") ||
+                coin.sprite.isColliding("obstacle") ||
+                coin.sprite.isColliding("wall")) {
+                this.scene.destroy(coin.sprite)
+                coin = null
+            }
+
+            this.scene.wait(1, () => spawn())
+        }
+        spawn()
+    }
+
+    coinCollide() {
         this.player.sprite.onCollide("mapCoin", (mapCoin) => {
             this.scene.destroy(mapCoin)
             debug.log("coin collide")
         })
     }
 
-    createPlayer(){
+
+    createPlayer() {
         this.player = new Player(this.scene, this.characterselect);
         this.setInputAdapter(this.inputAdapter);
         this.player.moveLeft()
         this.player.moveRight()
         this.player.jump()
     }
+
+    endGameAndGoLose() {
+            this.endGame();
+            go("lose");
+        }
 
     setInputAdapter(adapter) {
         this.inputAdapter = adapter
