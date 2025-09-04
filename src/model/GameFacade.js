@@ -46,11 +46,9 @@ export class GameFacade {
         return this.persistence.loadCharacters();
     }
 
-
-    // GameFacade
     spawnArrow() {
         const spawn = () => {
-            new Arrow(this.scene)  // PASAMOS la escena/k correcta
+            new Arrow(this.scene)
             this.scene.wait(this.scene.rand(1, 2), () => spawn())
         }
         spawn()
@@ -100,7 +98,7 @@ export class GameFacade {
 
     setInputAdapter(adapter) {
         this.inputAdapter = adapter
-        this.inputAdapter.bind(this.scene, this.player) // Usar this.player en lugar de this.scene.player
+        this.inputAdapter.bind(this.scene, this.player)
     }
 
     getSelectedCharacter() {

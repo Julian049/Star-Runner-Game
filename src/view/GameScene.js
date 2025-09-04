@@ -10,10 +10,9 @@ export function registerGameScene(gameFacade, k) {
             gameFacade.scoreManager.reset();
         }
         gameFacade.createPlayer();
-        //Creación de jugador
+        
         const player = gameFacade.getSelectedCharacter();
 
-        //Creación de pisos
         new Floor(0, 200, 1300, k)
         new Floor(200, 320, 1800, k)
         new Floor(0, 480, 1300, k)
@@ -21,8 +20,6 @@ export function registerGameScene(gameFacade, k) {
         new Floor(50, 380, 50, k)
         new Floor(1400, 600, 50, k)
 
-
-        //Creación de obstáculos
         
         gameFacade.addObstacle(850, 373)
         gameFacade.addObstacle(1200, 373)
@@ -35,17 +32,12 @@ export function registerGameScene(gameFacade, k) {
         gameFacade.addObstacle(900, 200)
         gameFacade.spawnArrow();
 
-
-        //Paredes invisibles
         new Wall(0, 0, k)
         new Wall(k.width(), 0, k)
 
 
-        //Monedas
         gameFacade.spawnCoin()
 
-
-        //Colisiones
         player.sprite.onCollide("arrow", () => {
             addKaboom(player.sprite.pos);
             shake();
@@ -63,8 +55,6 @@ export function registerGameScene(gameFacade, k) {
             gameFacade.addCoin();
         });
 
-        
-        //Puntajes y avisos
         const scoreLabel = k.add([
             k.text("Puntaje: " + gameFacade.getScore()),
             k.pos(k.width() - 300, 24),

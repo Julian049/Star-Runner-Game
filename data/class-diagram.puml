@@ -1,0 +1,113 @@
+@startuml
+
+package model {
+	class GameFacade {
+		- player
+		- scene
+		- inputAdapter
+		- characterselect
+		- scoreManager
+		- persistence
+		+ constructor(scene, scoreManager, persistence)
+		+ addCoin()
+		+ hitObstacle()
+		+ endGame()
+		+ getLeaderboard()
+		+ onScoreChange(cb)
+		+ getCharacters()
+		+ spawnArrow()
+		+ spawnCoin()
+	}
+	class Arrow {
+		- scene
+		+ constructor(scene)
+	}
+	class Wall {
+		- scene
+		+ constructor(x, y, scene)
+	}
+	class ScoreManager {
+		- count
+		- observers
+		+ constructor()
+		+ getScore()
+		+ addPoint()
+		+ removePoint()
+		+ onChange(cb)
+		+ notify()
+		+ reset()
+	}
+	class Player {
+		- k
+		- nameSprite
+		- sprite
+		+ constructor(k, nameSprite)
+		+ moveLeft()
+		+ moveRight()
+		+ jump()
+		+ getNameSprite()
+		+ setNameSprite(nameSprite)
+	}
+	class Obstacle {
+		- scene
+		+ constructor(x, y, scene)
+	}
+	class KeyboardAdapter extends InputAdapter {
+		+ bind(scene, player)
+	}
+	class InputAdapter {
+		+ bind(scene, player)
+	}
+	class Floor {
+		- scene
+		+ constructor(x, y, width, scene)
+	}
+	class Coin {
+		- scene
+		- sprite
+		+ constructor(x, y, scene)
+	}
+}
+
+package persistence {
+	class LocalStoragePersistence {
+		- key
+		+ constructor()
+		+ saveScore(score)
+		+ loadScores()
+		+ exportScores()
+		+ importScores(file, callback)
+		+ loadCharacters()
+	}
+}
+
+package view {
+	class GameScene <<function>>
+	class LoseScene <<function>>
+	class CharacterSelect <<function>>
+	class Assets <<function>>
+}
+
+model.KeyboardAdapter --|> model.InputAdapter
+model.GameFacade --> model.Player : «use»
+model.GameFacade --> model.Arrow : «use»
+model.GameFacade --> model.Obstacle : «use»
+model.GameFacade --> model.Coin : «use»
+model.GameFacade --> model.Wall : «use»
+model.GameFacade --> model.KeyboardAdapter : «use»
+model.GameFacade --> model.ScoreManager : «has»
+model.GameFacade --> persistence.LocalStoragePersistence : «has»
+model.Player --> model.Config : «use»
+model.Obstacle --> model.Config : «use»
+model.Floor --> model.Config : «use»
+view.GameScene --> model.Wall : «use»
+view.GameScene --> model.Floor : «use»
+view.GameScene --> model.Config : «use»
+view.LoseScene --> model.GameFacade : «use»
+view.CharacterSelect --> model.GameFacade : «use»
+persistence.LocalStoragePersistence --> model.ScoreManager : «use»
+view.Assets --> view.GameScene : «use»
+	view.CharacterSelect --> model.GameFacade : «use»
+	persistence.LocalStoragePersistence --> model.ScoreManager : «use»
+	view.Assets --> view.GameScene : «use»
+@enduml
